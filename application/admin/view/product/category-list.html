@@ -74,10 +74,10 @@
 					} else {
 						layer.confirm('是否删除该分类', function(index){
 							$.get("{:url('product/categoryDelete')}",{id:treeNode.id},function(data){
-								alert(data.message);
-								layer.close(index);
-								location.reload();
+								layer.alert(data.message,function(index){
+									location.reload();
 								return true;
+								});
 							})
 						});  
 						
