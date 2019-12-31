@@ -1,7 +1,7 @@
 ﻿{extend name="public/base" /}
 {block name="seo"}
 <title>产品分类</title>
-<link rel="stylesheet" href="__STATIC__/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="__STATIC__/admin/lib/zTree/v3/css/zTreeStyle/zTreeStyle.css" type="text/css">
 </head>
 
 <body>
@@ -28,10 +28,10 @@
 	{/block}
 
 	{block name="js"}
-	<script type="text/javascript" src="__STATIC__/lib/My97DatePicker/4.8/WdatePicker.js"></script>
-	<script type="text/javascript" src="__STATIC__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="__STATIC__/lib/laypage/1.2/laypage.js"></script>
-	<script type="text/javascript" src="__STATIC__/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="__STATIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="__STATIC__/admin/lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript" src="__STATIC__/admin/lib/zTree/v3/js/jquery.ztree.all-3.5.min.js"></script>
 	<script type="text/javascript">
 
 
@@ -72,8 +72,15 @@
 						zTree.expandNode(treeNode);
 						return false;
 					} else {
-						demoIframe.attr("src","{:url('product/categoryDelete')}"+"?id="+treeNode.id);
-						return true;
+						layer.confirm('是否删除该分类', function(index){
+							$.get("{:url('product/categoryDelete')}",{id:treeNode.id},function(data){
+								alert(data.message);
+								layer.close(index);
+								location.reload();
+								return true;
+							})
+						});  
+						
 					}
 				}
 			}

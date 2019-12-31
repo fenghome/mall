@@ -54,7 +54,16 @@ class Product extends Base
 
   public function categoryDelete(Request $request){
     $id = $request->param('id');
-    var_dump($id);
+    $res = GoodsType::destroy($id);
+    if($res > 0){
+      $message = "删除成功";
+      $status = 1;
+    }else{
+      $message = "删除失败";
+      $status = 0;
+    }
+    return ["status"=>$status,"message"=>$message];
+    
   }
 
   public function getCategory(){
