@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use app\admin\model\GoodsType;
+use app\admin\model\Goods;
 use think\Request;
 
 class Product extends Base
@@ -72,6 +73,8 @@ class Product extends Base
   }
 
   public function productList(){
+    $goods = Goods::all();
+    $this->assign('goods',$goods);
     return $this->fetch('product-list');
   }
 
@@ -83,5 +86,53 @@ class Product extends Base
     }
     $this->assign('category',$category);
     return $this->fetch('product-add');
+  }
+
+  public function productAdd(Request $request){
+    $data = $request->param();
+    $ids = explode("|",$data['ids']);
+    $data['tid']=$ids[0];
+    $data['tpid']=$ids[1]; 
+    $data['text']=isset($data['editorValue'])?$data['editorValue'] : "";
+    $goods = new Goods($data);
+    $res = $goods->allowField(true)->save();
+    if($res){
+      $status = 1;
+      $message = "添加成功";
+    }else{
+      $status = 0;
+      $message = "添加失败";
+    }
+    return ["status"=>$status,"message"=>$message];
+  }
+
+  public function showProductEdit(Request $request){
+    $id = $request->param('id');
+    $goods = Goods::get($id);
+    $this->assign('goods',$goods);
+    $category = GoodsType::where("id",">","1")->order('path')->select();
+    foreach ($category as $k => $v) {
+      $v['name'] = str_repeat("|------", $v['level'] - 1) . $v['name'];
+    }
+    $this->assign('category',$category);
+    return $this->fetch('product-edit');
+  }
+
+  public function productEdit(Request $request){
+    $data = $request->param();
+    $ids = explode("|",$data['ids']);
+    $data['tid'] = $ids[0];
+    $data['tpid'] = $ids[1];
+    $data['text'] = isset($data['editorValue'])?$data['editorValue']:"";
+    $goods = new Goods();
+    $res = $goods->allowField(true)->save($data,['id'=>$data['id']]);
+    if($res){
+      $status = 1;
+      $message = "更新成功";
+    }else{
+      $status  = 0;
+      $message = "更新失败";
+    }
+    return ["status"=>$status,"message"=>$message];
   }
 }

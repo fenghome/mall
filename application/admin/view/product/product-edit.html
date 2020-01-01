@@ -30,12 +30,13 @@
 
 <body>
     <div class="page-container">
-        <form action="" method="post" class="form form-horizontal" id="form-product-add">
+        <form action="" method="post" class="form form-horizontal" id="form-product-edit">
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>商品名称：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="" name="goodsname">
+                    <input type="text" class="input-text" value="{$goods.goodsname}" placeholder="" id="" name="goodsname">
                 </div>
+                <input type="hidden" value="{$goods.id}" name="id" />
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
@@ -43,7 +44,7 @@
                     <span class="select-box">
                         <select name="ids" class="select">
                             {volist name="category" id="vo"}
-                            <option value="{$vo.id}|{$vo.pid}">{$vo.name}</option>
+                            <option value="{$vo.id}|{$vo.pid}" {eq name="$vo.id" value="$goods.tid"}selected{/eq}>{$vo.name}</option>
                             {/volist}
                         </select>
                     </span>
@@ -55,11 +56,11 @@
                     <span class="select-box">
                         <select class="select" name="unit">
                             <option>请选择</option>
-                            <option value="1">件</option>
-                            <option value="2">斤</option>
-                            <option value="3">KG</option>
-                            <option value="4">吨</option>
-                            <option value="5">套</option>
+                            <option value="1" {eq name="$goods.unit" value="1"}selected{/eq}>件</option>
+                            <option value="2" {eq name="$goods.unit" value="2"}selected{/eq}>斤</option>
+                            <option value="3" {eq name="$goods.unit" value="3"}selected{/eq}>KG</option>
+                            <option value="4" {eq name="$goods.unit" value="4"}selected{/eq}>吨</option>
+                            <option value="5" {eq name="$goods.unit" value="5"}selected{/eq}>套</option>
                         </select>
                     </span>
                 </div>
@@ -68,31 +69,31 @@
                 <label class="form-label col-xs-4 col-sm-2">商品属性：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="0" checked>
+                        <input type="radio" name="attributes" value="0" {eq name="$goods.attributes" value="0"}checked{/eq}>
                         <label>推荐</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="1">
+                        <input type="radio" name="attributes" value="1" {eq name="$goods.attributes" value="1"}checked{/eq}>
                         <label>上新</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="2">
+                        <input type="radio" name="attributes" value="2" {eq name="$goods.attributes" value="2"}checked{/eq}>
                         <label>热卖</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="3">
+                        <input type="radio" name="attributes" value="3" {eq name="$goods.attributes" value="3"}checked{/eq}>
                         <label>促销</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="4">
+                        <input type="radio" name="attributes" value="4" {eq name="$goods.attributes" value="4"}checked{/eq}>
                         <label>包邮</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="5">
+                        <input type="radio" name="attributes" value="5" {eq name="$goods.attributes" value="5"}checked{/eq}>
                         <label>限时卖</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="attributes" value="6">
+                        <input type="radio" name="attributes" value="6" {eq name="$goods.attributes" value="6"}checked{/eq}>
                         <label>不参与会员折扣</label>
                     </div>
                 </div>
@@ -100,19 +101,19 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">商品编号：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="" name="number">
+                    <input type="text" class="input-text" value="{$goods.number}" placeholder="" id="" name="number">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">条形码：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" class="input-text" value="" placeholder="" id="" name="barcode">
+                    <input type="text" class="input-text" value="{$goods.barcode}" placeholder="" id="" name="barcode">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">现价：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="curprice" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="curprice" id="" placeholder="" value="{$goods.curprice}" class="input-text"
                         style="width:90%">
                     元</div>
             </div>
@@ -120,42 +121,42 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">市场价格：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="oriprice" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="oriprice" id="" placeholder="" value="{$goods.oriprice}" class="input-text"
                         style="width:90%">
                     元</div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">成本价格：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="cosprice" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="cosprice" id="" placeholder="" value="{$goods.cosprice}" class="input-text"
                         style="width:90%">
                     元</div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">库存量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="inventory" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="inventory" id="" placeholder="" value="{$goods.inventory}" class="input-text"
                         style="width:90%">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">限制购买量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="restrict" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="restrict" id="" placeholder="" value="{$goods.restrict}" class="input-text"
                         style="width:90%">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">已经购买量：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="already" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="already" id="" placeholder="" value="{$goods.already}" class="input-text"
                         style="width:90%">
                 </div>
             </div>
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">运费：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="freight" id="" placeholder="" value="" class="input-text"
+                    <input type="text" name="freight" id="" placeholder="" value="{$goods.freight}" class="input-text"
                         style="width:90%">
                     元</div>
             </div>
@@ -163,11 +164,11 @@
                 <label class="form-label col-xs-4 col-sm-2">商品属性：</label>
                 <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                     <div class="radio-box">
-                        <input type="radio" name="status" value="0" checked>
+                        <input type="radio" name="status" value="0" {eq name="$goods.status" value="0"}checked{/eq}>
                         <label>上架</label>
                     </div>
                     <div class="radio-box">
-                        <input type="radio" name="status" value="1">
+                        <input type="radio" name="status" value="1" {eq name="$goods.status" value="1"}checked{/eq}>
                         <label>下架</label>
                     </div>
                 </div>
@@ -176,7 +177,7 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">商品排序：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <input type="text" name="reorder" id="" placeholder="" value="" class="input-text">
+                    <input type="text" name="reoorder" id="" placeholder="" value="{$goods.reorder}" class="input-text">
                 </div>
             </div>
             <div class="row cl">
@@ -213,7 +214,7 @@
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">详细内容：</label>
                 <div class="formControls col-xs-8 col-sm-9">
-                    <script id="editor" name="text" type="text/plain" style="width:100%;height:400px;"></script>
+                    <script id="editor" type="text/plain" style="width:100%;height:400px;">{$goods.text}</script>
                 </div>
             </div>
             <div class="row cl">
@@ -931,7 +932,7 @@
             var ue = UE.getEditor('editor');
         });
         $(function () {
-            $("#form-product-add").validate({
+            $("#form-product-edit").validate({
                 rules: {
                     number:{
                         number:true,
@@ -955,14 +956,15 @@
                 submitHandler: function (form) {
                     $(form).ajaxSubmit({
                         type: 'post', // 提交方式 get/post
-                        url: "{:url('product/productAdd')}", // 需要提交的 url
+                        url: "{:url('product/productEdit')}", // 需要提交的 url
                         dataType: 'json',
                         success: function (data) {
                             // data 保存提交后返回的数据，一般为 json 数据
                             // 此处可对 data 作相关处理
                             layer.alert(data.message,function(index){
                                 var index = parent.layer.getFrameIndex(window.name);
-                                // parent.$('.btn-refresh').click();
+                                // parent.$('#btn-refresh').click();
+                                parent.location.reload();
                                 parent.layer.close(index);
                             });
                             
@@ -970,7 +972,7 @@
                         error: function () {
                             layer.alert('提交失败！',function(index){
                                 var index = parent.layer.getFrameIndex(window.name);
-                                // parent.$('.btn-refresh').click();
+                                parent.$('#btn-refresh').click();
                                 parent.layer.close(index);
                             })
 
