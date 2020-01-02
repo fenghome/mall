@@ -80,7 +80,7 @@ class Product extends Base
 
   public function showProductAdd(){
 
-    $category = GoodsType::where('1=1')->order('path')->select();
+    $category = GoodsType::where("id",">","1")->order('path')->select();
     foreach ($category as $k => $v) {
       $v['name'] = str_repeat("|------", $v['level'] - 1) . $v['name'];
     }

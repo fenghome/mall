@@ -932,7 +932,10 @@
         });
         $(function () {
             $("#form-product-add").validate({
-                rules: {
+                rules: { 
+                    unit:{
+                        number:true,
+                    }, 
                     number:{
                         number:true,
                     },
@@ -949,6 +952,11 @@
                         min:0
                     }
                 },
+                messages:{
+                    unit:{
+                        number:'请选择单位'
+                    },
+                },
                 onkeyup: false,
                 focusCleanup: true,
                 success: "valid",
@@ -962,15 +970,14 @@
                             // 此处可对 data 作相关处理
                             layer.alert(data.message,function(index){
                                 var index = parent.layer.getFrameIndex(window.name);
-                                // parent.$('.btn-refresh').click();
+                                parent.location.reload();
                                 parent.layer.close(index);
-                            });
-                            
+                            }); 
                         },
                         error: function () {
                             layer.alert('提交失败！',function(index){
                                 var index = parent.layer.getFrameIndex(window.name);
-                                // parent.$('.btn-refresh').click();
+                                parent.location.reload();
                                 parent.layer.close(index);
                             })
 
