@@ -136,20 +136,30 @@ class Product extends Base
     return ["status"=>$status,"message"=>$message];
   }
 
-  public function addFile(Request $request){
-    $file = $request->file('file');
+
+  public function addFile(Request $request){ 
+    $err = [
+      'error'=>'一个错误',
+
+    ];
+    return json($err);
     
-    if($file){
-      $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
-      if($info){
-        $status = 0;
-        $message = "上传成功";
-      }else{
-        $status = 0;
-        $message = "上传失败";
-      }
-      $res = ["status"=>$status,"message"=>$message];
-      return json_encode($res);
-    }
+      
   }
+    // $file = $request->file('file');
+    // echo json_decode('ddd');
+    
+    // if($file){
+    //   $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
+    //   if($info){
+    //     $status = 0;
+    //     $message = "上传成功";
+    //   }else{
+    //     $status = 0;
+    //     $message = "上传失败";
+    //   }
+    //   $res = ["status"=>$status,"message"=>$message];
+    //   return json_encode($res);
+    // }
+  // }
 }
