@@ -274,11 +274,7 @@
                 theme: 'fas',
                 language: 'zh',
                 uploadUrl: "{:url('product/addFile')}",
-                overwriteInitial: false,  //不能重载初始预览
-                initialPreview: [         //初始预览数据
-                    "http://lorempixel.com/800/460/people/1",
-                    "http://lorempixel.com/800/460/people/2"
-                ],
+                initialPreview: getiInitialPreview(),
                 initialPreviewAsData: true,      // 确定传入预览数据，而不是原生标记语言
             }).on('fileuploaded', function (event, data, previewId, index) {
                 let imagepath = $("#imagepath").val();
@@ -297,12 +293,14 @@
                 let paths = value.split(',');
                 let pathMap = [];
                 for(let i=0;i<paths.length;i++){
-                    pathMap[i] = "{$Think.APP_PATH}";
+                    let pathArr = paths[i].split('|');
+                    let path = pathArr[1];
+                    pathMap[i] = "__STATIC__"+'/../uploads/'+path;
                 }
                 console.log(pathMap);
                 return pathMap;
             }
-            getiInitialPreview();
+            
 
 
         })(jQuery);
