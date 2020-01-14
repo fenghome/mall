@@ -138,28 +138,23 @@ class Product extends Base
 
 
   public function addFile(Request $request){ 
-    $err = [
-      'error'=>'一个错误',
+ 
+    $file = $request->file('file');
 
-    ];
-    return json($err);
-    
-      
+    if($file){
+      $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
+      $res = "{}";
+      if($info){
+        $res = [
+          "path"=>$info->getSaveName()
+        ];
+      }else{
+        $res = [
+          "error"=>"上传失败"
+        ];
+      }
+
+      return json($res);
+    }
   }
-    // $file = $request->file('file');
-    // echo json_decode('ddd');
-    
-    // if($file){
-    //   $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
-    //   if($info){
-    //     $status = 0;
-    //     $message = "上传成功";
-    //   }else{
-    //     $status = 0;
-    //     $message = "上传失败";
-    //   }
-    //   $res = ["status"=>$status,"message"=>$message];
-    //   return json_encode($res);
-    // }
-  // }
 }

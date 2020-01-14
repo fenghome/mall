@@ -29,24 +29,27 @@
     <link href="__STATIC__/admin/lib/fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="__STATIC__/admin/lib/fontawesome/css/all.css">
     <link href="__STATIC__/admin/lib/fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"
-      type="text/css" />
+        type="text/css" />
     <!-- end -->
 
     <style type="text/css">
-        .input-group.file-caption-main .btn{
-            height:auto;
+        .input-group.file-caption-main .btn {
+            height: auto;
         }
+
         .krajee-default .file-thumb-progress .progress,
         .kv-upload-progress .progress {
             width: auto;
         }
-        #kvFileinputModal.show{
+
+        #kvFileinputModal.show {
             opacity: 1;
         }
-        .kv-fileinput-error.file-error-message pre{
-            background-color:inherit;
-            border:none;
-        } 
+
+        .kv-fileinput-error.file-error-message pre {
+            background-color: inherit;
+            border: none;
+        }
     </style>
 
 </head>
@@ -205,10 +208,11 @@
 
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">图片上传：</label>
-                <div class="formControls col-xs-8 col-sm-9">        
-                        <input id="file-fr" name="file-fr[]" type="file" multiple>               
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input id="file-upload" name="file" type="file" multiple>
                 </div>
             </div>
+            <input type="hidden" id="imagepath" name="imagepath" />
             <div class="row cl">
                 <label class="form-label col-xs-4 col-sm-2">详细内容：</label>
                 <div class="formControls col-xs-8 col-sm-9">
@@ -261,13 +265,24 @@
         });
 
         (function ($) {
-            $("#file-fr").fileinput({
-                theme:'fas',  
-                language:'zh',    
-                uploadUrl: "{:url('product/addFile')}",              
+            $("#file-upload").fileinput({
+                theme: 'fas',
+                language: 'zh',
+                uploadUrl: "{:url('product/addFile')}",
+            }).on('fileuploaded', function (event, data, previewId, index) {
+                let imagepath = $("#imagepath").val();
+
+                let value;
+                if (imagepath.length > 0) {
+                    value = imagepath + ',' + index + '|' + data.response.path;
+                } else {
+                    value = index + '|'+ data.response.path;
+                }
+                $("#imagepath").attr('value', value);
+
             })
         })(jQuery);
-  
+
 
         $(function () {
             var ue = UE.getEditor('editor');
