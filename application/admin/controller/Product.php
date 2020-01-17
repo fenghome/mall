@@ -145,8 +145,9 @@ class Product extends Base
       $info = $file->move(ROOT_PATH.'public'.DS.'uploads');
       $res = "{}";
       if($info){
+        $path = addslashes($info->getSaveName());
         $res = [
-          "path"=>$info->getSaveName()
+          "path"=>$path
         ];
       }else{
         $res = [

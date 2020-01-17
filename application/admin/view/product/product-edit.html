@@ -291,13 +291,15 @@
             function getiInitialPreview(){
                 let value = "{$goods.imagepath}";
                 let paths = value.split(',');
-                let pathMap = [];
+               
+                let pathMap = [];                
+
                 for(let i=0;i<paths.length;i++){
                     let pathArr = paths[i].split('|');
                     let path = pathArr[1];
                     pathMap[i] = "__STATIC__"+'/../uploads/'+path;
                 }
-                console.log(pathMap);
+
                 return pathMap;
             }
             
@@ -344,7 +346,6 @@
                                 parent.location.reload();
                                 parent.layer.close(index);
                             });
-
                         },
                         error: function () {
                             layer.alert('提交失败！', function (index) {
