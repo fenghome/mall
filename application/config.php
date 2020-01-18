@@ -247,6 +247,6 @@ return [
         'auth_group'        => 'auth_group', // 用户组数据不带前缀表名
         'auth_group_access' => 'auth_group_access', // 用户-用户组关系不带前缀表名
         'auth_rule'         => 'auth_rule', // 权限规则不带前缀表名
-        'auth_user'         => 'admin_user', // 用户信息不带前缀表名
+        'auth_user'         => 'user', // 用户信息不带前缀表名
     ],
 ];
