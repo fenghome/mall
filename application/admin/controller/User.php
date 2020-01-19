@@ -19,10 +19,9 @@ class User extends Base{
 
   public function addUser(Request $request){
     $status = 0;
-    $message = "添加失败";
-    
-    $data = $request->param();
+    $message = "添加失败"; 
 
+    $data = $request->param();    
     $res = UserModel::get(['adminName'=>$data['adminName']]);
     if(!is_null($res)){
       $status = 0;
@@ -30,9 +29,10 @@ class User extends Base{
       return json(['status'=>$status,'message'=>$message]);
     }
     
-    $user = new UserModel($data);
-    $user->authGroupAccess = new AuthGroupAccess(['group_id'=>$data['group_id']]);
-    $res = $user->allowField(true)->together('authGroupAccess')->save();
+    $user = new UserModel();    
+    $user->data($data,true);
+    $user->authGroupAccess = new AuthGroupAccess(['group_id'=>$data['group_id']]);    
+    $res = $user->allowField(true)->together('authGroupAccess')->save();    
     
     if($res){
       $status = 1;

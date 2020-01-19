@@ -40,9 +40,9 @@
 				<label class="form-label col-xs-4 col-sm-3">角色：</label>
 				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 						<select class="select" name="group_id" size="1">
-							<option value="0">超级管理员</option>
-							<option value="1">经理</option>
-							<option value="2">销售</option>
+							<option value="1">管理员</option>
+							<option value="2">分类员</option>
+							<option value="3">产品员</option>
 						</select>
 					</span> </div>
 			</div>
@@ -107,7 +107,7 @@
 							})
 						}
 					}).error(function () {
-						layer.msg(data.message, {
+						layer.msg('添加失败', {
 							icon: 2,
 							time: 2000 //2秒关闭（如果不配置，默认是3秒）
 						}, function () {
