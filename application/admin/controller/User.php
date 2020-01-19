@@ -5,9 +5,11 @@ use app\admin\controller\Base;
 use think\Request;
 use app\admin\model\User as UserModel;
 use app\admin\model\AuthGroupAccess;
-
+use app\admin\model\AuthGroup;
 class User extends Base{
   public function adminList(){
+    $userList = UserModel::all();
+    $this->assign('userList',$userList);
     return $this->fetch('user/admin_list');
   }
 
@@ -20,6 +22,14 @@ class User extends Base{
     $message = "添加失败";
     
     $data = $request->param();
+
+    $res = UserModel::get(['adminName'=>$data['adminName']]);
+    if(!is_null($res)){
+      $status = 0;
+      $message = "用户名存在";
+      return json(['status'=>$status,'message'=>$message]);
+    }
+    
     $user = new UserModel($data);
     $user->authGroupAccess = new AuthGroupAccess(['group_id'=>$data['group_id']]);
     $res = $user->allowField(true)->together('authGroupAccess')->save();
@@ -30,5 +40,7 @@ class User extends Base{
     }
     return json(['status'=>$status,'message'=>$message]);
   }
+
+
   
 }
