@@ -14,12 +14,7 @@ class Index extends Base{
   }
 
   public function test(){
-    $user = new UserModel();
-    $user->adminName = '111232143';
-    $user->password = "sdf";
-    $auth = new AuthGroupAccess(['group_id'=>2]);
-    $user->authGroupAccess = $auth;
-    $user->together('authGroupAccess')->save();
-    
+    $name = 1;
+    echo $name;
   }
 } 
