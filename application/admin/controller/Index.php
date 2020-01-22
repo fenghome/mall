@@ -14,7 +14,8 @@ class Index extends Base{
   }
 
   public function test(){
-    $name = 1;
-    echo $name;
+    $res = AuthGroupAccess::where('uid','=',15)->update(['group_id'=>7]) ;
+    
+   
   }
 } 

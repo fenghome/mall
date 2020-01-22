@@ -91,16 +91,30 @@ class User extends Base{
       $message = "用户名存在";
       return ["status"=>$status,"message"=>$message];
     }
+
     $user = UserModel::get($data['id']);
-    $user->adminName=$data['adminName'];
-    $user->authGroupAccess->group_id = 3; 
-
-    $res = $user->together('authGroupAccess')->save();
-    if($res){
-      $status = 1;
-      $message = "更新用户成功";
+    
+    if($user->adminName !== $data['adminName']){
+      $user->adminName=$data['adminName'];
+      $res = $user->save();
+      if($res === 0){
+        $status = 0;
+        $messge = "用户名更新失败";
+        return ["status"=>$status,"message"=>$message];
+      }
     }
-
+    
+    if($user->authGroupAccess->group_id !== $data['group_id']){
+      $res = AuthGroupAccess::where('uid','=',$data['id'])->update(['group_id'=>$data['group_id']]);
+      if($res === 0){
+        $status = 0;
+        $messge = "角色更新失败";
+        return ["status"=>$status,"message"=>$message];
+      }
+    }
+    
+    $status = 1;
+    $message = "更新用户成功";
     return ["status"=>$status,"message"=>$message];
   }
 
