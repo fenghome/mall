@@ -14,8 +14,11 @@ class Index extends Base{
   }
 
   public function test(){
-    $res = AuthGroupAccess::where('uid','=',15)->update(['group_id'=>7]) ;
-    
+    return $this->fetch('index/test');
    
+  }
+
+  public function test1(){
+    $this->success('新增成功', 'index/index');
   }
 } 

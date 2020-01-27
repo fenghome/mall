@@ -6,11 +6,17 @@ use app\admin\controller\Base;
 use app\admin\model\GoodsType;
 use app\admin\model\Goods;
 use think\Request;
+use think\auth\Auth;
 
 class Product extends Base
 {
   public function categoryList()
   {
+    $auth = Auth::instance();
+    // 检测权限
+    if(!$auth->check('category-categorylist',session('user_id'))){// 第一个参数是规则名称,第二个参数是用户UID
+      $this->error('没有权限','Index/index');
+    }
     $res = GoodsType::all();
     return $this->fetch('category-list');
   }

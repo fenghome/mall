@@ -6,37 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="__STATIC__/admin/lib/bootstrap/css/bootstrap.min.css">
-  <link href="__STATIC__/admin/lib/fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="__STATIC__/admin/lib/fontawesome/css/all.css">
-  <link href="__STATIC__/admin/lib/fileinput/themes/explorer-fas/theme.css" media="all" rel="stylesheet"
-    type="text/css" />
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-  <script src="__STATIC__/admin/lib/bootstrap/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/plugins/piexif.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/plugins/sortable.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/fileinput.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/locales/fr.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/locales/es.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/js/locales/zh.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/themes/fas/theme.js" type="text/javascript"></script>
-  <script src="__STATIC__/admin/lib/fileinput/themes/explorer-fas/theme.js" type="text/javascript"></script>
+  <script type="text/javascript" src="__STATIC__/admin/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/admin/lib/layer/2.4/layer.js"></script>
 </head>
 
 <body>
-  <div>aaa__STATIC__</div>
+  <form id="myform" >
+    <input type="text" name="a"></input>
+    <input type="button" value="提交" id="submit"/>
+  </form>
 
   <script>
-    $(document).ready(function () {
-      $("#file-fr").fileinput({
-        theme:'fas',
-        language:'zh',
-        uploadUrl: "{:url('product/addFile')}",
-      
+    $(function(){
+      $('#submit').click(function(){
+        $.post("{:url('index/test1')}");
       })
-    });
-
-
+    })
 
 
   </script>

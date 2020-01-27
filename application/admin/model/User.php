@@ -10,10 +10,6 @@ class User extends Model{
     return md5($value);
   }
 
-  public function setAdminName($value){
-    return "aaaaa".$value;
-  }
-
   public function authGroupAccess(){
     return $this->hasOne('AuthGroupAccess','uid');
   }

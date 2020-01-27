@@ -1,4 +1,4 @@
-﻿{extend name="public/base"} {block name="content"}
+﻿{extend name="public/base" /} {block name="content"}
 <section class="Hui-article-box">
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页
@@ -72,7 +72,7 @@
 							<a title="编辑" href="javascript:;" onclick="admin_edit('用户编辑','{:url("user/showAdminEdit",["id"=>$user.id])}','800','500')" class="ml-5" style="text-decoration:none">
 								<i class="Hui-iconfont">&#xe6df;</i>
 							</a>
-							<a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none">
+							<a title="删除" href="javascript:;" onclick="admin_del(this,{$user.id})" class="ml-5" style="text-decoration:none">
 								<i class="Hui-iconfont">&#xe6e2;</i>
 							</a>
 						</td>
@@ -86,9 +86,9 @@
 {/block} {block name="js"}
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
-<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="__STATIC__/admin/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
 	/*
 		参数解释：
@@ -106,9 +106,15 @@
 	function admin_del(obj, id) {
 		layer.confirm('确认要删除吗？', function (index) {
 			//此处请求后台程序，下方是成功后的前台处理……
+			$.post("{:url('user/delUser')}",{id:id},function(data){
+				if(data.status === 1){
+					$(obj).parents("tr").remove();
+					layer.msg('已删除!', { icon: 1, time: 1000 });
+				}else{
+					layer.msg('删除失败!', { icon: 2, time: 1000 });
+				}
+			})
 
-			$(obj).parents("tr").remove();
-			layer.msg('已删除!', { icon: 1, time: 1000 });
 		});
 	}
 	/*管理员-编辑*/
@@ -129,7 +135,7 @@
 				} else {
 					layer.msg(data.message, {
 						icon: 2,
-						time: 2000
+						time: 1000
 					})
 				}
 			})
@@ -151,7 +157,7 @@
 				} else {
 					layer.msg(data.message, {
 						icon: 2,
-						time: 2000
+						time: 1000
 					})
 				}
 			})

@@ -3,11 +3,50 @@ namespace app\admin\controller;
 
 use app\admin\controller\Base;
 use think\Request;
+use think\Session;
+use think\captcha\Captcha;
 use app\admin\model\User as UserModel;
 use app\admin\model\AuthGroupAccess;
 use app\admin\model\AuthGroup;
 
 class User extends Base{
+
+  public function login(){
+    return $this->fetch('user/login');
+  }
+
+  public function checkLogin(Request $request){
+    $status = 0;
+    $message = "";
+    $data = $request->param();
+    if(!captcha_check($data['verityCode'])){
+      $status = 0;
+      $message = "验证码错误";
+      return ['status'=>$status,'message'=>$message];
+    };
+    
+    $password = md5($data['password']);
+    $res = UserModel::get(['adminName'=>$data['adminName'],'password'=>$password]);
+    if(is_null($res)){
+      $status = 0;
+      $message = "账户或密码错误";
+      return ['status'=>$status,'message'=>$message];     
+    }
+
+    $status = 1;
+    $message = "登录成功";
+
+    Session::set('user_id',$res->id);
+    Session::set('user_info',$res->getData());
+    return ['status'=>$status,'message'=>$message];  
+  }
+
+  public function logout(){
+    Session::delete('user_id');
+    Session::delete('user_info');
+    $this->success('退出成功', 'User/login');
+  }
+
   public function adminList(){
     $userList = UserModel::all();
     $this->assign('userList',$userList);
@@ -99,16 +138,17 @@ class User extends Base{
       $res = $user->save();
       if($res === 0){
         $status = 0;
-        $messge = "用户名更新失败";
+        $message = "用户名更新失败";
         return ["status"=>$status,"message"=>$message];
       }
     }
     
-    if($user->authGroupAccess->group_id !== $data['group_id']){
+
+    if($user->authGroupAccess->group_id != $data['group_id']){
       $res = AuthGroupAccess::where('uid','=',$data['id'])->update(['group_id'=>$data['group_id']]);
       if($res === 0){
         $status = 0;
-        $messge = "角色更新失败";
+        $message = "角色更新失败";
         return ["status"=>$status,"message"=>$message];
       }
     }
@@ -119,5 +159,18 @@ class User extends Base{
   }
 
 
+  public function delUser(Request $request){
+    $status = 0;
+    $message = "删除失败";
+    $user_id = $request->param('id');
+    $user = UserModel::get($user_id);
+    $res = $user->together('authGroupAccess')->delete();
+    if($res>0){
+      $status = 1;
+      $message = "删除成功";
+    }
+
+    return ['status'=>$status,'message'=>$message];
+  }
   
 }
