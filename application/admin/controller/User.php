@@ -9,6 +9,7 @@ use app\admin\model\User as UserModel;
 use app\admin\model\AuthGroupAccess;
 use app\admin\model\AuthGroup;
 
+
 class User extends Base{
 
   public function login(){
@@ -171,6 +172,15 @@ class User extends Base{
     }
 
     return ['status'=>$status,'message'=>$message];
+  }
+
+  public function permission(){
+
+    return $this->fetch('user/admin_permission');
+  }
+
+  public function showPermissionAdd(){
+    return $this->fetch('user/admin_permission_add');                        
   }
   
 }
