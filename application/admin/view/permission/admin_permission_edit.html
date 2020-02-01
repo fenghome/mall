@@ -1,7 +1,7 @@
 {extend name="public/base" /}
 
 {block name="seo"}
-<title>添加管理员 - 管理员管理 - H-ui.admin v3.0</title>
+<title>添加权限节点 - 管理员管理 - H-ui.admin v3.0</title>
 <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
@@ -14,38 +14,21 @@
 	{/block}
 	{block name="content"}
 	<article class="cl pd-20">
-		<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+		<form action="" method="post" class="form form-horizontal" id="form-permission-edit">
+			<input type="hidden" value="{$rule.id}" name="id"/>
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="text" class="input-text" value="" placeholder="" id="adminName" name="adminName">
+					<input type="text" class="input-text" value="{$rule.title}" placeholder="" id="title" name="title">
 				</div>
 			</div>
 			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>初始密码：</label>
+				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>规则：</label>
 				<div class="formControls col-xs-8 col-sm-9">
-					<input type="password" class="input-text" autocomplete="off" value="" placeholder="密码" id="password"
-						name="password">
+					<input type="text" class="input-text" autocomplete="off" value="{$rule.name}" placeholder="规则:控制器-操作" id="name"
+						name="name">
 				</div>
-			</div>
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>确认密码：</label>
-				<div class="formControls col-xs-8 col-sm-9">
-					<input type="password" class="input-text" autocomplete="off" placeholder="确认新密码" id="password2"
-						name="password2">
-				</div>
-			</div>
-
-			<div class="row cl">
-				<label class="form-label col-xs-4 col-sm-3">角色：</label>
-				<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-						<select class="select" name="group_id" size="1">
-							{volist name="authGroup" id="vo"}
-							<option value="{$vo.id}">{$vo.title}</option>
-							{/volist}
-						</select>
-					</span> </div>
-			</div>
+			</div>	
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
 					<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
@@ -68,29 +51,35 @@
 				increaseArea: '20%'
 			});
 
-			$("#form-admin-add").validate({
+			
+			$.validator.addMethod("noSpace", function(value, element) {  
+				var checkCode = /\s/;
+				return  !checkCode.test(value);  
+			},"内容不能有空格");
+
+			$.validator.addMethod("checkRule", function(value, element) {  
+				var checkCode = /^\S+-\S+/;
+				return  checkCode.test(value);  
+			},"规则必须格式为：XXX-XXX");
+
+			$("#form-permission-edit").validate({				
+				debug: true,
 				rules: {
-					adminName: {
+					title: {
 						required: true,
-						minlength: 4,
-						maxlength: 16
+						noSpace:true,
 					},
-					password: {
+					name: {
 						required: true,
+						noSpace:true,
+						checkRule:true,
 					},
-					password2: {
-						required: true,
-						equalTo: "#password"
-					},
-					adminRole: {
-						required: true,
-					},
-				},
+				},	
 				onkeyup: false,
 				focusCleanup: true,
 				success: "valid",
 				submitHandler: function (form) {
-					$.post("{:url('user/addUser')}", $('#form-admin-add').serialize(), function (data) {
+					$.post("{:url('permission/editPermission')}", $('#form-permission-edit').serialize(), function (data) {
 						if (data.status === 0) {
 							layer.msg(data.message, {
 								icon: 2,
@@ -107,7 +96,7 @@
 							})
 						}
 					}).error(function () {
-						layer.msg('添加失败', {
+						layer.msg('更新失败', {
 							icon: 2,
 							time: 1000 //2秒关闭（如果不配置，默认是3秒）
 						}, function () {
@@ -116,8 +105,6 @@
 							parent.layer.close(index);
 						})
 					})
-
-
 				}
 			});
 		});

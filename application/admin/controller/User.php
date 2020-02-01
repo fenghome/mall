@@ -55,6 +55,8 @@ class User extends Base{
   }
 
   public function showAdminAdd(){
+    $authGroup = AuthGroup::all();
+    $this->assign('authGroup',$authGroup);
     return $this->fetch('user/admin_add');
   }
 

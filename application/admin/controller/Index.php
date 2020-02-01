@@ -6,6 +6,8 @@ use app\admin\model\GoodsType;
 use think\auth\Auth;
 use app\admin\model\User as UserModel;
 use app\admin\model\AuthGroupAccess;
+use app\admin\model\AuthRule;
+use app\admin\model\AuthGroup;
 
 
 class Index extends Base{
@@ -14,8 +16,9 @@ class Index extends Base{
   }
 
   public function test(){
-    return $this->fetch('index/test');
-   
+    dump(strpos('1111222',strval(1))!==false);
+
+
   }
 
   public function test1(){

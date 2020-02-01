@@ -5,6 +5,6 @@ use think\Model;
 
 class AuthGroup extends Model{
   public function authGroupAccess(){
-    return $this->hasMany('authGruopAccess','group_id');
+    return $this->hasMany('authGroupAccess','group_id');
   }
 }
